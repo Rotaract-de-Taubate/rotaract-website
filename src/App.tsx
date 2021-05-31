@@ -1,24 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {useState} from 'react';
+import {
+} from 'react-icons/fa';
+
+import { MODAL_STATE } from './types';
+
+import Header from './components/header';
+import Hero from './components/hero'
+import Modal from './components/modal';
+
 import './App.css';
 
+
 function App() {
+  const [modalState, setModalState] = useState<MODAL_STATE>(MODAL_STATE.closed);
+  const handleModalState = (newModalState: MODAL_STATE) => {
+    setModalState(newModalState);
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Header onModalState={handleModalState} />
+      <Hero onModalState={handleModalState} />
+      <Modal state={modalState} />
     </div>
   );
 }

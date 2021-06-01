@@ -11,12 +11,17 @@ import Button from '../button';
 
 const Section = styled.section`
   display: flex;
-  width: calc(100% - 30px);
+  width: calc(100%);
   padding: 40px;
   background-image: url(banner-bg.png);
   background-repeat: no-repeat;
   background-position: center center;
   text-align: left;
+  padding-top: 100px;
+
+  @media(max-width: 768px) {
+    padding-top: 40px;
+  }
 `;
 
 const Row = styled.div`
@@ -31,6 +36,10 @@ const HeroTitle = styled.h1`
   letter-spacing: -3px;
   margin-bottom: 25px;
   line-height: 1.13;
+
+  @media(max-width: 768px) {
+    font-size: 2.8em
+  }
 `;
 
 const HeroText = styled.p`
@@ -47,8 +56,18 @@ const HeroImg = styled.img`
 
 const HeroButtons = styled.div`
   display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: stretch;
   Button {
     margin-right: 15px;
+    margin-bottom: 15px;
+    @media(max-width: 768px) {
+      width: 100%;
+      align-items: center;
+      justify-content: center;
+      margin: 20px 0;
+    }
   }
 `;
 

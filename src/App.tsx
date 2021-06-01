@@ -7,9 +7,9 @@ import { MODAL_STATE } from './types';
 import Header from './components/header';
 import Hero from './components/hero'
 import Modal from './components/modal';
+import MapSection from './components/map-section';
 
 import './App.css';
-
 
 function App() {
   const [modalState, setModalState] = useState<MODAL_STATE>(MODAL_STATE.closed);
@@ -21,7 +21,12 @@ function App() {
     <div className="App">
       <Header onModalState={handleModalState} />
       <Hero onModalState={handleModalState} />
-      <Modal state={modalState} />
+      <MapSection />
+      <Modal
+        state={modalState}
+        onModalClose={() => { setModalState(MODAL_STATE.closed)}}
+        onModalChangeState={(state) => { setModalState(state)}}
+      />
     </div>
   );
 }

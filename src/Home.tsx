@@ -38,11 +38,15 @@ function Home() {
         onModalClose={() => { handleModalState(MODAL_STATE.closed)}}
         onModalChangeState={(state) => { handleModalState(state)}}
       />
-      <ModalDonation
-        state={modalDonationState}
-        onModalClose={() => { handleModalDonationState(MODAL_STATE.closed)}}
-        onModalChangeState={(state) => { handleModalDonationState(state)}}
-      />
+      { place && (
+        <ModalDonation
+          place={place}
+          state={modalDonationState}
+          onModalClose={() => { handleModalDonationState(MODAL_STATE.closed)}}
+          onModalChangeState={(state) => { handleModalDonationState(state)}}
+        />
+      )}
+      
     </div>
   );
 }

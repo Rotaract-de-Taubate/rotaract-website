@@ -3,18 +3,22 @@ import { Modal, ModalHeader, ModalBody } from 'reactstrap';
 import styled from 'styled-components';
 
 import  { MODAL_STATE } from '../../types';
+import FormDonation from './form';
 
 const CloseButton = styled.button`
   font-size: 30px;
+  padding: 0;
 `;
 
 interface Props {
+  place: string,
   state: MODAL_STATE;
   onModalClose: () => void;
   onModalChangeState: (state: MODAL_STATE) => void;
 }
 
 const ModalDonation: React.FC<Props> = ({
+  place,
   state,
   onModalClose
 }) => {
@@ -34,8 +38,8 @@ const ModalDonation: React.FC<Props> = ({
       <ModalBody>
         <div className="container-fluid">
           <div className="row">
-            <div className="col-md-6 col-sm-12">
-              Formulário de doação.
+            <div className="col-12">
+              <FormDonation />
             </div>
           </div>
         </div>

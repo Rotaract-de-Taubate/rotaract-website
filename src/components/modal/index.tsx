@@ -49,6 +49,7 @@ const OptionButton = styled.button`
 
 const CloseButton = styled.button`
   font-size: 30px;
+  padding: 0;
 `;
 
 interface Props {

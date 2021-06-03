@@ -1,34 +1,23 @@
-import React, {useState} from 'react';
+import React from "react";
 import {
-} from 'react-icons/fa';
+  BrowserRouter as Router,
+  Switch,
+  Route,
+} from "react-router-dom";
 
-import { MODAL_STATE } from './types';
+import Home from './Home';
 
-import Header from './components/header';
-import Hero from './components/hero'
-import Modal from './components/modal';
-import MapSection from './components/map-section';
-
-import './App.css';
-
-function App() {
-  const [modalState, setModalState] = useState<MODAL_STATE>(MODAL_STATE.closed);
-  const handleModalState = (newModalState: MODAL_STATE) => {
-    setModalState(newModalState);
-  }
-
+export default function App() {
   return (
-    <div className="App">
-      <Header onModalState={handleModalState} />
-      <Hero onModalState={handleModalState} />
-      <MapSection />
-      <Modal
-        state={modalState}
-        onModalClose={() => { setModalState(MODAL_STATE.closed)}}
-        onModalChangeState={(state) => { setModalState(state)}}
-      />
-    </div>
+    <Router>
+      <Switch>
+        <Route exact path="/">
+          <Home />
+        </Route>
+        <Route exact path="/agasalho/:place">
+          <Home />
+        </Route>
+      </Switch>
+    </Router>
   );
-}
-
-export default App;
+};

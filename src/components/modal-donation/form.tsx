@@ -1,5 +1,4 @@
-import React, {useState, useEffect} from 'react';
-import { Modal, ModalHeader, ModalBody } from 'reactstrap';
+import React from 'react';
 import styled from 'styled-components';
 import { FaHeart } from 'react-icons/fa';
 

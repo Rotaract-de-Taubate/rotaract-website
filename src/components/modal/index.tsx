@@ -78,7 +78,7 @@ const RctModal: React.FC<Props> = ({
       <ModalBody>
         <div className="container-fluid">
           <div className="row">
-            <div className="col-md-6 col-sm-12">
+            <div className="col-md-6 col-6">
               <OptionButton
                 className={ state === MODAL_STATE.map ? 'selected' : ''}
                 onClick={() => { onModalChangeState(MODAL_STATE.map) }}
@@ -87,7 +87,7 @@ const RctModal: React.FC<Props> = ({
                 <label>Locais de coleta</label>
               </OptionButton>
             </div>
-            <div className="col-md-6 col-sm-12">
+            <div className="col-md-6 col-6">
               <OptionButton
                 className={ state === MODAL_STATE.delivery ? 'selected' : ''}
                 onClick={() => { onModalChangeState(MODAL_STATE.delivery) }}

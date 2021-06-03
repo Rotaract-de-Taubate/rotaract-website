@@ -28,8 +28,6 @@ function Home() {
     setModalDonationState(newModalState);
   }
 
-  console.log(place);
-
   return (
     <div className="App">
       <Header onModalState={handleModalState} />

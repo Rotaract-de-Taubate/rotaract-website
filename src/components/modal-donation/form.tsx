@@ -39,12 +39,31 @@ const SubmitButton = styled.button`
   width: 100%;
 `;
 
-const FormDonation: React.FC = () => {
+interface Props {
+  place: string,
+}
+
+const FormDonation: React.FC<Props> = ({
+  place,
+}) => {
+  const getPlaceName = (placeString: string): string => {
+    switch (placeString) {
+      case 'dabm': 
+        return 'DABM - Medicina Taubaté';
+      case 'viva-eventos':
+        return 'Viva Eventos';
+      case 'lavista':
+        return 'Lavista Eyewear';
+      default:
+        return 'Indefinido';
+    }
+  };
+
   return (
     <form action="#" method="POST" id="xs-donation-form" className="xs-donation-form">
       <InputGroup>
         <Label htmlFor="xs-donate-name">Local da doação</Label>
-        Viva Eventos
+        { getPlaceName(place) }
       </InputGroup>
       <InputGroup>
         <Label htmlFor="xs-donate-charity">Nome completo</Label>

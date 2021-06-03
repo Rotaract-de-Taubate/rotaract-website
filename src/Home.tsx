@@ -13,7 +13,7 @@ import MapSection from './components/map-section';
 
 import './App.css';
 
-const checkPlaceIsValid = (place?: string) => place === 'viva-eventos' || place === 'lavista' || place === 'dcbm';
+const checkPlaceIsValid = (place?: string) => place === 'viva-eventos' || place === 'lavista' || place === 'dabm';
 
 function Home() {
   let { place } = useParams<{ place?: string }>();

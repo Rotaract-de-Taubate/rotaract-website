@@ -39,7 +39,7 @@ const ModalDonation: React.FC<Props> = ({
         <div className="container-fluid">
           <div className="row">
             <div className="col-12">
-              <FormDonation />
+              <FormDonation place={place} />
             </div>
           </div>
         </div>

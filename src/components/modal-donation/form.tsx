@@ -1,5 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import MaskedInput from "react-text-mask";
+
 import { FaHeart } from 'react-icons/fa';
 
 const Label = styled.label`
@@ -37,7 +40,40 @@ const SubmitButton = styled.button`
   z-index: 1;
   transition: all .4s ease;
   width: 100%;
+
+  &:hover, &:focus {
+    background-color: #81256f;
+  }
 `;
+
+const StyledErrorMessage = styled(ErrorMessage)`
+  color: #ce2a2a;
+  margin-top: 10px;
+`;
+
+interface FormErrors {
+  name?: string;
+  phone?: string;
+  email?: string;
+}
+
+const phoneNumberMask = [
+  "(",
+  /[1-9]/,
+  /[1-9]/,
+  ")",
+  " ",
+  /\d/,
+  /\d/,
+  /\d/,
+  /\d/,
+  /\d/,
+  "-",
+  /\d/,
+  /\d/,
+  /\d/,
+  /\d/
+];
 
 interface Props {
   place: string,
@@ -60,28 +96,70 @@ const FormDonation: React.FC<Props> = ({
   };
 
   return (
-    <form action="#" method="POST" id="xs-donation-form" className="xs-donation-form">
-      <InputGroup>
-        <Label htmlFor="xs-donate-name">Local da doação</Label>
-        { getPlaceName(place) }
-      </InputGroup>
-      <InputGroup>
-        <Label htmlFor="xs-donate-charity">Nome completo</Label>
-        <input type="text" name="name" id="name" className="form-control" placeholder="Escreva seu nome completo" />
-      </InputGroup>
-      <InputGroup>
-        <Label htmlFor="xs-donate-charity">E-mail</Label>
-        <input type="text" name="email" id="email" className="form-control" placeholder="Seu melhor e-mail" />
-      </InputGroup>
-      <InputGroup>
-        <Label htmlFor="xs-donate-charity">Celular</Label>
-        <input type="text" name="phone" id="-phone" className="form-control" placeholder="Seu número de celular" />
-      </InputGroup>
-      <SubmitButton type="submit" className="btn btn-success">
-        <HeartIcon />
-        Registrar doação
-      </SubmitButton>
-    </form>
+    <Formik
+       initialValues={{ email: '', phone: '', number: '' }}
+       validate={values => {
+         const errors: FormErrors = {};
+         if (!values.email) {
+           errors.email = 'E-mail é obrigatório.';
+         } else if (
+           !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
+         ) {
+           errors.email = 'Endereço de e-mail é inválido.';
+         }
+         if (!values.phone) {
+          errors.phone = 'Celular é obrigatório.';
+        } else if (
+          !/^\([1-9]{2}\) (?:[2-8]|9[1-9])[0-9]{3}-[0-9]{4}$/gm.test(values.phone)
+        ){
+          errors.phone = 'Celular não está preenchido corretamente.'
+        }
+         return errors;
+       }}
+       onSubmit={(values, { setSubmitting }) => {
+         setTimeout(() => {
+           alert(JSON.stringify(values, null, 2));
+           setSubmitting(false);
+         }, 400);
+       }}
+     >
+      {({ isSubmitting, handleChange, handleBlur }) => (
+        <Form>
+          <InputGroup>
+            <Label htmlFor="xs-donate-name">Local da doação</Label>
+            { getPlaceName(place) }
+          </InputGroup>
+          <InputGroup>
+            <Label htmlFor="xs-donate-charity">Nome completo</Label>
+            <Field type="text" name="name" className="form-control" placeholder="Escreva seu nome completo" />
+          </InputGroup>
+          <InputGroup>
+            <Label htmlFor="xs-donate-charity">E-mail</Label>
+            <Field type="email" name="email" className="form-control" placeholder="Seu melhor e-mail" />
+            <StyledErrorMessage name="email" component="div" />
+          </InputGroup>
+          <InputGroup>
+            <Label htmlFor="xs-donate-charity">Celular</Label>
+            <Field name="phone" render={({ field }: any) => (
+              <MaskedInput
+                {...field}
+                mask={phoneNumberMask}
+                placeholder="Entre com o seu celular"
+                type="text"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                className="form-control" 
+              />
+            )}/>
+            <StyledErrorMessage name="phone" component="div" />
+          </InputGroup>
+          <SubmitButton type="submit" className="btn" disabled={isSubmitting}>
+            <HeartIcon />
+            Registrar doação
+          </SubmitButton>
+        </Form>
+      ) }
+    </Formik>
   );
 }
 

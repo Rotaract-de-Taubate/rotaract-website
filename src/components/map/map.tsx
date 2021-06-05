@@ -22,7 +22,7 @@ const MapPage = () => {
         />
         <Marker position={[-23.031696, -45.567005]} icon={RotaractIcon}>
           <Popup>
-            DABM Medicina<br />Av. Tiradentes do Brasil, 500 - Jardim das Nações, Taubaté - SP, 12030-180
+            DCBM Medicina<br />Av. Tiradentes do Brasil, 500 - Jardim das Nações, Taubaté - SP, 12030-180
           </Popup>
         </Marker>
         <Marker position={[-23.0238909, -45.5544782]} icon={RotaractIcon}>

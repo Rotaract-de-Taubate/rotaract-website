@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import MaskedInput from "react-text-mask";
 
 import { FaHeart } from 'react-icons/fa';
+import axios from 'axios';
+
+import thanks from './thanks.svg';
+const donationsPostUri = 'https://rotaract-site.herokuapp.com/donations';
 
 const Label = styled.label`
   display: block;
@@ -55,6 +59,7 @@ interface FormErrors {
   name?: string;
   phone?: string;
   email?: string;
+  items?: string;
 }
 
 const phoneNumberMask = [
@@ -77,15 +82,18 @@ const phoneNumberMask = [
 
 interface Props {
   place: string,
+  onSubmitted: () => void,
 }
 
 const FormDonation: React.FC<Props> = ({
   place,
+  onSubmitted,
 }) => {
+  const [ isSubmitted, setSubmitted ] = useState<boolean>(false);
   const getPlaceName = (placeString: string): string => {
     switch (placeString) {
-      case 'dabm': 
-        return 'DABM - Medicina Taubaté';
+      case 'dcbm': 
+        return 'DCBM - Medicina Taubaté';
       case 'viva-eventos':
         return 'Viva Eventos';
       case 'lavista':
@@ -97,9 +105,12 @@ const FormDonation: React.FC<Props> = ({
 
   return (
     <Formik
-       initialValues={{ email: '', phone: '', number: '' }}
+       initialValues={{ email: '', phone: '', name: '', items: '' }}
        validate={values => {
          const errors: FormErrors = {};
+         if (!values.name) {
+           errors.name = 'Nome é obrigatório.';
+         }
          if (!values.email) {
            errors.email = 'E-mail é obrigatório.';
          } else if (
@@ -114,16 +125,28 @@ const FormDonation: React.FC<Props> = ({
         ){
           errors.phone = 'Celular não está preenchido corretamente.'
         }
+        if (!values.items) {
+          errors.items = 'Informe qual foi a doação.';
+        }
          return errors;
        }}
-       onSubmit={(values, { setSubmitting }) => {
-         setTimeout(() => {
-           alert(JSON.stringify(values, null, 2));
-           setSubmitting(false);
-         }, 400);
+       onSubmit={async (values, { setSubmitting }) => {
+         const submittedResponse = await axios.post(donationsPostUri, {
+           ...values,
+           place,
+           check: undefined,
+         });
+         if (submittedResponse.status === 200 && submittedResponse.data.status === 'success') {
+           setSubmitted(true);
+           onSubmitted();
+         }
+         setSubmitting(false);
        }}
      >
       {({ isSubmitting, handleChange, handleBlur }) => (
+        isSubmitted ? <div>
+          <img src={thanks} alt="Muito obrigado!" />
+        </div> :
         <Form>
           <InputGroup>
             <Label htmlFor="xs-donate-name">Local da doação</Label>
@@ -132,6 +155,7 @@ const FormDonation: React.FC<Props> = ({
           <InputGroup>
             <Label htmlFor="xs-donate-charity">Nome completo</Label>
             <Field type="text" name="name" className="form-control" placeholder="Escreva seu nome completo" />
+            <StyledErrorMessage name="name" component="div" />
           </InputGroup>
           <InputGroup>
             <Label htmlFor="xs-donate-charity">E-mail</Label>
@@ -152,6 +176,15 @@ const FormDonation: React.FC<Props> = ({
               />
             )}/>
             <StyledErrorMessage name="phone" component="div" />
+          </InputGroup>
+          <InputGroup>
+            <Label htmlFor="xs-donate-charity">Qual foi a doação?</Label>
+            <Field type="text" name="items" className="form-control" placeholder="O que foi doado?" />
+            <StyledErrorMessage name="items" component="div" />
+          </InputGroup>
+          <InputGroup className="form-check">
+            <Field type="checkbox" name="check" id="check" className="form-check-input" placeholder="O que foi doado?" />
+            <label htmlFor="check">Confirmo que a doação foi realizada no local informado acima e os dados são verdadeiros.</label>
           </InputGroup>
           <SubmitButton type="submit" className="btn" disabled={isSubmitting}>
             <HeartIcon />

@@ -28,18 +28,22 @@ const ModalDonation: React.FC<Props> = ({
   }, [state])
 
   const [modal, setModal] = useState<boolean>(false);
+  const [modalTitle, setModalTitle] = useState<string>('Registre sua doação');
   const toggleModal = () => setModal(!modal);
 
   const closeBtn = <CloseButton className="btn close" onClick={toggleModal}>&times;</CloseButton>;
 
   return (
     <Modal isOpen={modal} toggle={toggleModal} className="modal-dialog-centered" onClosed={onModalClose}>
-      <ModalHeader close={closeBtn} toggle={toggleModal}>Registre sua doação</ModalHeader>
+      <ModalHeader close={closeBtn} toggle={toggleModal}>{ modalTitle }</ModalHeader>
       <ModalBody>
         <div className="container-fluid">
           <div className="row">
             <div className="col-12">
-              <FormDonation place={place} />
+              <FormDonation
+                place={place}
+                onSubmitted={() => setModalTitle('Obrigado pela doação!')}
+              />
             </div>
           </div>
         </div>

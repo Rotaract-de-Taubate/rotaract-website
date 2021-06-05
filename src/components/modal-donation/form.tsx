@@ -4,6 +4,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import MaskedInput from "react-text-mask";
 
 import { FaHeart } from 'react-icons/fa';
+import { AiOutlineLoading } from 'react-icons/ai';
 import axios from 'axios';
 
 import thanks from './thanks.svg';
@@ -23,6 +24,16 @@ const InputGroup = styled.div`
 `;
 
 const HeartIcon = styled(FaHeart)`
+  margin-right: 10px;
+  font-size: 15px;
+`;
+
+const LoadingIcon = styled(AiOutlineLoading)`
+  @keyframes rotate{
+    to{ transform: rotate(360deg); }
+  }
+
+  animation: rotate 1.5s linear infinite; 
   margin-right: 10px;
   font-size: 15px;
 `;
@@ -47,6 +58,7 @@ const SubmitButton = styled.button`
 
   &:hover, &:focus {
     background-color: #81256f;
+    color: #FFFFFF;
   }
 `;
 
@@ -105,9 +117,9 @@ const FormDonation: React.FC<Props> = ({
 
   return (
     <Formik
-       initialValues={{ email: '', phone: '', name: '', items: '' }}
+       initialValues={{ email: '', phone: '', name: '', items: '', check: false }}
        validate={values => {
-         const errors: FormErrors = {};
+         const errors: FormErrors = { };
          if (!values.name) {
            errors.name = 'Nome é obrigatório.';
          }
@@ -143,7 +155,7 @@ const FormDonation: React.FC<Props> = ({
          setSubmitting(false);
        }}
      >
-      {({ isSubmitting, handleChange, handleBlur }) => (
+      {({ isSubmitting, handleChange, handleBlur, values, isValid }) => (
         isSubmitted ? <div>
           <img src={thanks} alt="Muito obrigado!" />
         </div> :
@@ -186,9 +198,18 @@ const FormDonation: React.FC<Props> = ({
             <Field type="checkbox" name="check" id="check" className="form-check-input" placeholder="O que foi doado?" />
             <label htmlFor="check">Confirmo que a doação foi realizada no local informado acima e os dados são verdadeiros.</label>
           </InputGroup>
-          <SubmitButton type="submit" className="btn" disabled={isSubmitting}>
-            <HeartIcon />
-            Registrar doação
+          <SubmitButton type="submit" className="btn" disabled={isSubmitting || !values.check || !isValid}>
+            { isSubmitting ? (
+              <>
+                <LoadingIcon />
+                Registrando, aguarde...
+              </>
+            ) : (
+              <>
+                <HeartIcon />
+                Registrar doação
+              </>
+            )}
           </SubmitButton>
         </Form>
       ) }

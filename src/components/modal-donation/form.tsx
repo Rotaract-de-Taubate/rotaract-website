@@ -198,7 +198,7 @@ const FormDonation: React.FC<Props> = ({
             <Field type="checkbox" name="check" id="check" className="form-check-input" placeholder="O que foi doado?" />
             <label htmlFor="check">Confirmo que a doação foi realizada no local informado acima e os dados são verdadeiros.</label>
           </InputGroup>
-          <SubmitButton type="submit" className="btn" disabled={isSubmitting || !values.check || !isValid}>
+          <SubmitButton type="submit" className="btn">
             { isSubmitting ? (
               <>
                 <LoadingIcon />

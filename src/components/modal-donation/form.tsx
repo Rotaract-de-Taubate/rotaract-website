@@ -123,9 +123,7 @@ const FormDonation: React.FC<Props> = ({
          if (!values.name) {
            errors.name = 'Nome é obrigatório.';
          }
-         if (!values.email) {
-           errors.email = 'E-mail é obrigatório.';
-         } else if (
+         if (values.email &&
            !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
          ) {
            errors.email = 'Endereço de e-mail é inválido.';

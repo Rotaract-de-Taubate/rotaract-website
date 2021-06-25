@@ -145,6 +145,7 @@ const FormDonation: React.FC<Props> = ({
            ...values,
            place,
            check: undefined,
+           email: values.email ? values.email : undefined,
          });
          if (submittedResponse.status === 200 && submittedResponse.data.status === 'success') {
            setSubmitted(true);

@@ -20,6 +20,11 @@ const MapPage = () => {
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
+        <Marker position={[-23.0253974, -45.5435986]} icon={RotaractIcon}>
+          <Popup>
+            Academia Moviment<br />Av. dos Bandeirantes, 1139 - Parque Paduan - Taubaté - SP
+          </Popup>
+        </Marker>
         <Marker position={[-23.031696, -45.567005]} icon={RotaractIcon}>
           <Popup>
             DCBM Medicina<br />Av. Tiradentes do Brasil, 500 - Jardim das Nações, Taubaté - SP, 12030-180

@@ -110,6 +110,8 @@ const FormDonation: React.FC<Props> = ({
         return 'Viva Eventos';
       case 'lavista':
         return 'Lavista Eyewear';
+      case 'moviment':
+        return 'Academia Moviment';
       default:
         return 'Indefinido';
     }
